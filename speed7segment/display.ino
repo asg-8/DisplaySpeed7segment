@@ -1,8 +1,11 @@
+#include "defines.h"
+
 struct
 {
   uint16_t value;
   uint16_t value_current;
-  uint8_t flags;
+  uint8_t dot;
+  uint8_t blank;
   uint8_t mux;
 } display_status = {0};
 
@@ -13,7 +16,8 @@ void display_set_value(int value)
 
 void display_7seg_ABCD(uint8_t value)
 {
-  value %= 10;
+  // value %= 10;
+  value &= 0x0F;
 
   bool pinA = (value & 0x01) > 0;
   bool pinB = (value & 0x02) > 0;
@@ -33,11 +37,21 @@ void display_mux(uint8_t output_enable)
   digitalWrite(10, (output_enable & 0x04) > 0);
 }
 
-void display_driver(uint16_t val_7seg, uint8_t flags, uint8_t mux)
+void display_driver(uint16_t val_7seg, uint8_t mux, bool blank = 0, bool dot = 0)
 {
   display_mux(0);
-  display_7seg_ABCD((val_7seg >> (4*mux)) & 0x000F);
-  //flags
+  
+  if (blank)
+  {
+    display_7seg_ABCD(0x0F);
+  }
+  else
+  {
+    display_7seg_ABCD((val_7seg >> (4*mux)) & 0x000F);
+  }
+
+  digitalWrite(PIN_DO_7SEG_DP, dot);
+
   display_mux(1 << mux);
 }
 
@@ -57,7 +71,7 @@ void display_scheduled(void)
     display_status.value_current = display_status.value;
   }
 
-  display_driver(display_integer_value_to_hex(display_status.value_current), 0, display_status.mux);
+  display_driver(display_integer_value_to_hex(display_status.value_current), display_status.mux, 0, display_status.mux == 0);
 
   display_status.mux++;
   if (display_status.mux >= 3)
