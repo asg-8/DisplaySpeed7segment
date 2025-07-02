@@ -9,9 +9,12 @@ struct
   uint8_t mux;
 } display_status = {0};
 
-void display_set_value(int value)
+// void display_set_value(int value, uint8_t blank = 0)
+void display_set_value(int value, uint8_t blank)
+// void display_set_value(int value)
 {
   display_status.value = value;
+  display_status.blank = blank;
 }
 
 void display_7seg_ABCD(uint8_t value)
@@ -41,7 +44,7 @@ void display_driver(uint16_t val_7seg, uint8_t mux, bool blank = 0, bool dot = 0
 {
   display_mux(0);
   
-  if (blank)
+  if ((display_status.blank >> mux) & 0x01)
   {
     display_7seg_ABCD(0x0F);
   }
@@ -69,6 +72,8 @@ void display_scheduled(void)
   if (display_status.mux == 0)
   {
     display_status.value_current = display_status.value;
+    //blank
+    //dot
   }
 
   display_driver(display_integer_value_to_hex(display_status.value_current), display_status.mux, 0, display_status.mux == 0);
@@ -80,3 +85,5 @@ void display_scheduled(void)
   }
 }
 
+
+//fcns for TRg'd and bicolor

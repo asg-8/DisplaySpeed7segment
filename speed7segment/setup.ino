@@ -16,6 +16,11 @@ void setup_digital_pins(void)
   pinMode(6, OUTPUT); //TRIG rdy A
   pinMode(7, OUTPUT); //TRIG rdy B
 
+  pinMode(8, OUTPUT); //LED bicolor R
+  pinMode(9, OUTPUT); //LED bicolor G
+
   pinMode(A2, INPUT); //Sensor A
   pinMode(A3, INPUT); //Sensor B
+
+  pinMode(A5, INPUT); //Pushbutton
 }
