@@ -17,6 +17,7 @@ bool gateA = true;
 bool gateB = true;
 
 int speed = 0;
+long time = 0; //diff
 
 // float SENSOR_DISTANCE = 2.54 * 58; //mm/step * number of steps //in mm
 long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
@@ -25,7 +26,25 @@ long DISTANCE_um = 147320LU; //in um --> mm / ms
 
 #define MILIS_GATE 3000
 
-int loop_speed(void)
+
+
+int sensors_get_speed(void)
+{
+  return speed;
+}
+
+long sensors_get_time(void)
+{
+  return time;
+}
+
+
+void sensors_set_gate(int)
+{
+  
+}
+
+void scheduled_sensors(void)
 {
   unsigned long milis = millis();
   // unsigned long milis = micros();
@@ -75,6 +94,19 @@ int loop_speed(void)
     unsigned long time_diff = abs(milis_sensorB - milis_sensorA);
     speed = (unsigned long)SENSOR_DISTANCE / time_diff; //mm/s
   }
+}
 
-  return speed;
+bool sensor_detected(int sensor)
+{
+
+}
+
+bool sensor_digital(int sensor)
+{
+
+}
+
+bool sensor_analog(int sensor)
+{
+  
 }
