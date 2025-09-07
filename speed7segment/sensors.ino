@@ -44,7 +44,7 @@ void sensors_set_gate(int)
   
 }
 
-void scheduled_sensors(void)
+void sensors_scheduled(void)
 {
   unsigned long milis = millis();
   // unsigned long milis = micros();
@@ -54,8 +54,8 @@ void scheduled_sensors(void)
   if (milis > milis_sensorA + MILIS_GATE) gateA = true;
   if (milis > milis_sensorB + MILIS_GATE) gateB = true;
 
-  digitalWrite(6, gateA);
-  digitalWrite(7, gateB);
+  digitalWrite(PIN_DO_TRIGRDY_A, !gateA);
+  digitalWrite(PIN_DO_TRIGRDY_B, !gateB);
 
   if (gateA && gateB)
   {

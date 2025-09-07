@@ -27,7 +27,7 @@ void setup()
   loop_test_adc_dig_N(10000);
 }
 
-int mode = 1;
+int mode = 0;
 
 void callback_button_pressed(void)
 {
@@ -38,8 +38,8 @@ void callback_button_pressed(void)
 
 void loop()
 {
-  button_scheduled();
-  scheduled_sensors();
+  // button_scheduled();
+  sensors_scheduled();
 
   switch(mode)
   {
@@ -101,15 +101,15 @@ void loop_test_pot(void)
   if (potval > 999) potval = 999;
   display_set_value(potval, 0);
 
-  if(digitalRead(A5))
+  if(!digitalRead(PIN_DI_BUTTON))
   {
-    digitalWrite(8, potval > 333);
-    digitalWrite(9, potval < 666);
+    digitalWrite(PIN_DO_BICOLOR_R, potval > 333);
+    digitalWrite(PIN_DO_BICOLOR_G, potval < 666);
   }
   else
   {
-    digitalWrite(8, false);
-    digitalWrite(9, false);
+    digitalWrite(PIN_DO_BICOLOR_R, false);
+    digitalWrite(PIN_DO_BICOLOR_G, false);
   }
 }
 
@@ -127,8 +127,14 @@ void loop_update_display(void)
 
 void loop_mode_passthrough(void)
 {
-  digitalWrite(6, !digitalRead(A3));
-  digitalWrite(7, !digitalRead(A2));
+  bool sensorA = false;
+  bool sensorB = false;
+
+  sensorA = !digitalRead(PIN_DI_SENSOR_A);
+  sensorB = !digitalRead(PIN_DI_SENSOR_B);
+
+  digitalWrite(PIN_DO_TRIGRDY_A, !sensorA);
+  digitalWrite(PIN_DO_TRIGRDY_B, !sensorB);
 }
 
 void loop_test_adc_dig(void)
@@ -145,7 +151,7 @@ void loop_test_adc_dig(void)
   micros_B_adc = micros();
 
   micros_A_dig = micros();
-  digVal = digitalRead(A3);
+  digVal = digitalRead(PIN_AI_POT);
   micros_B_dig = micros();
 
   Serial.print(micros_B_adc - micros_A_adc); //208 us
@@ -172,7 +178,7 @@ void loop_test_adc_dig_N(int N)
 
   micros_A_dig = micros();
   for(int i = 0; i < N; ++i)
-  digVal = digitalRead(A3);
+  digVal = digitalRead(PIN_AI_POT);
   micros_B_dig = micros();
 
   micros_A_ctrl = micros();
@@ -198,25 +204,25 @@ void loop_test_adc_dig_N(int N)
 void lamp_test(void)
 {
   display_set_value(888, 0, 0b111);
-  digitalWrite(6, true);
-  digitalWrite(7, false);
-  digitalWrite(8, true);
-  digitalWrite(9, false);
+  digitalWrite(PIN_DO_TRIGRDY_A, false);
+  digitalWrite(PIN_DO_TRIGRDY_B, true);
+  digitalWrite(PIN_DO_BICOLOR_R, true);
+  digitalWrite(PIN_DO_BICOLOR_G, false);
 
   delayUpdateDisplay(500);
 
-  digitalWrite(6, false);
-  digitalWrite(7, true);
-  digitalWrite(8, false);
-  digitalWrite(9, true);
+  digitalWrite(PIN_DO_TRIGRDY_A, true);
+  digitalWrite(PIN_DO_TRIGRDY_B, false);
+  digitalWrite(PIN_DO_BICOLOR_R, false);
+  digitalWrite(PIN_DO_BICOLOR_G, true);
 
   delayUpdateDisplay(500);
 
   display_set_value(0, 0b111);
-  digitalWrite(6, false);
-  digitalWrite(7, false);
-  digitalWrite(8, false);
-  digitalWrite(9, false);
+  digitalWrite(PIN_DO_TRIGRDY_A, true);
+  digitalWrite(PIN_DO_TRIGRDY_B, true);
+  digitalWrite(PIN_DO_BICOLOR_R, false);
+  digitalWrite(PIN_DO_BICOLOR_G, false);
   
   delayUpdateDisplay(500);
 }
