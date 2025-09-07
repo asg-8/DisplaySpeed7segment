@@ -48,8 +48,8 @@ void sensors_scheduled(void)
 {
   unsigned long milis = millis();
   // unsigned long milis = micros();
-  sensorA = !digitalRead(A3);
-  sensorB = !digitalRead(A2);
+  sensorA = !digitalRead(PIN_DI_SENSOR_A);
+  sensorB = !digitalRead(PIN_DI_SENSOR_B);
 
   if (milis > milis_sensorA + MILIS_GATE) gateA = true;
   if (milis > milis_sensorB + MILIS_GATE) gateB = true;

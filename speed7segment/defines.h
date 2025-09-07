@@ -9,10 +9,10 @@
 #define PIN_DO_7SEG_MUX_2 7
 #define PIN_DO_7SEG_MUX_3 6
 #define PIN_DO_7SEG_DP    A0
-#define PIN_DO_TRIGRDY_A  10
 #define PIN_DO_TRIGRDY_B  9
-#define PIN_DO_BICOLOR_R  12
+#define PIN_DO_TRIGRDY_A  10
 #define PIN_DO_BICOLOR_G  11
+#define PIN_DO_BICOLOR_R  12
 
 #define PIN_DI_SENSOR_A   15
 #define PIN_DI_SENSOR_B   16

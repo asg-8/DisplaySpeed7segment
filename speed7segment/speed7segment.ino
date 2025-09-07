@@ -38,8 +38,7 @@ void callback_button_pressed(void)
 
 void loop()
 {
-  // button_scheduled();
-  sensors_scheduled();
+  button_scheduled();
 
   switch(mode)
   {
@@ -52,6 +51,7 @@ void loop()
     
     case 1:
     {
+      sensors_scheduled();
       loop_mode_speed();
       break;
     }
@@ -122,6 +122,7 @@ void loop_update_display(void)
     micros_display = time_micros;
     display_scheduled();
     // Serial.println("DISPLAY UPDATE");
+
   }
 }
 
@@ -135,6 +136,8 @@ void loop_mode_passthrough(void)
 
   digitalWrite(PIN_DO_TRIGRDY_A, !sensorA);
   digitalWrite(PIN_DO_TRIGRDY_B, !sensorB);
+  digitalWrite(PIN_DO_BICOLOR_R, sensorA);
+  digitalWrite(PIN_DO_BICOLOR_G, sensorB);
 }
 
 void loop_test_adc_dig(void)
