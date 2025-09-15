@@ -16,10 +16,15 @@ void setup()
 
   lamp_test();
 
-  button_setup_callbacks(&callback_button_pressed, nullptr);
+  button_setup_callbacks(&callback_button_pressed, &callback_button_released);
 
   Serial.println("SETUP DONE");
 
+  // test_adc();
+}
+
+void test_adc(void)
+{
   loop_test_adc_dig();
   loop_test_adc_dig_N(10);
   loop_test_adc_dig_N(100);
@@ -31,9 +36,15 @@ int mode = 0;
 
 void callback_button_pressed(void)
 {
-  ++mode;
-  if (mode > 2) mode = 0;
+  if (mode != 3) ++mode;
+  // if (mode > 2) mode = 0;
   Serial.println(mode);
+}
+
+int button_ms_released = 0;
+void callback_button_released(int ms)
+{
+  button_ms_released = ms;
 }
 
 void loop()
@@ -59,6 +70,12 @@ void loop()
     case 2:
     {
       loop_test_pot();
+      break;
+    }
+
+    case 3:
+    {
+      loop_test_button();
       break;
     }
 
@@ -101,17 +118,63 @@ void loop_test_pot(void)
   if (potval > 999) potval = 999;
   display_set_value(potval, 0);
 
-  if(!digitalRead(PIN_DI_BUTTON))
-  {
+  // if(!digitalRead(PIN_DI_BUTTON))
+  // {
     digitalWrite(PIN_DO_BICOLOR_R, potval > 333);
     digitalWrite(PIN_DO_BICOLOR_G, potval < 666);
+  // }
+  // else
+  // {
+  //   digitalWrite(PIN_DO_BICOLOR_R, false);
+  //   digitalWrite(PIN_DO_BICOLOR_G, false);
+  // }
+}
+
+
+
+void loop_test_button(void)
+{
+  int button_press_ms = button_get_ms_press();
+  
+  if (button_press_ms == 0)
+    display_set_value(button_ms_released/10, 0, 0b100);
+  else
+    display_set_value(button_press_ms/10, 0, 0b100);
+
+  if(button_press_ms == 0)
+  {
+    digitalWrite(PIN_DO_BICOLOR_G, 0);
+    digitalWrite(PIN_DO_BICOLOR_R, 0);
+  }
+  else
+  if(button_press_ms < 300)
+  {
+    digitalWrite(PIN_DO_BICOLOR_G, 1);
+    digitalWrite(PIN_DO_BICOLOR_R, 0);
+  }
+  else
+  if(button_press_ms < 1000)
+  {
+    digitalWrite(PIN_DO_BICOLOR_G, 1);
+    digitalWrite(PIN_DO_BICOLOR_R, 1);
   }
   else
   {
-    digitalWrite(PIN_DO_BICOLOR_R, false);
-    digitalWrite(PIN_DO_BICOLOR_G, false);
+    digitalWrite(PIN_DO_BICOLOR_G, 0);
+    digitalWrite(PIN_DO_BICOLOR_R, 1);
   }
+
 }
+
+
+
+
+
+
+
+
+
+
 
 void loop_update_display(void)
 {

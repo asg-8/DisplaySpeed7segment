@@ -20,11 +20,16 @@ int speed = 0;
 long time = 0; //diff
 
 // float SENSOR_DISTANCE = 2.54 * 58; //mm/step * number of steps //in mm
-long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
-long DISTANCE_um = 147320LU; //in um --> mm / ms
+// long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
+// long DISTANCE_um = 147320LU; //in um --> mm / ms
+long DISTANCE_um = 127000LU; //in um --> mm / ms
 #define SENSOR_DISTANCE (DISTANCE_um)
 
 #define MILIS_GATE 3000
+
+
+
+/////////////////////////////////////// HYSTERESYS
 
 
 

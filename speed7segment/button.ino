@@ -3,9 +3,13 @@
 bool button_filtered = false;
 long button_debounce_counter = 0;
 long button_debounce_threshold = 10;
+long unsigned button_ms_press = 0;
+long unsigned button_ms_release = 0;
 
 void (*p_fcn_press)(void) = nullptr;
-void (*p_fcn_release)(void) = nullptr;
+void (*p_fcn_release)(int) = nullptr;
+
+//////////////// FILTER!
 
 void button_scheduled(void)
 {
@@ -19,7 +23,13 @@ void button_scheduled(void)
   if (button && !button_prev)
   {
     button_cb_pressed();
-    //milis
+    button_ms_press = millis();
+  }
+
+  if (!button && button_prev)
+  {
+    button_ms_release = millis();
+    button_cb_released(button_ms_release - button_ms_press);
   }
 
   button_filtered = button;
@@ -29,6 +39,11 @@ void button_scheduled(void)
 bool button_get_status(void)
 {
   return button_filtered;
+}
+
+int button_get_ms_press(void)
+{
+  return button_get_status() ? millis() - button_ms_press : 0;
 }
 
 bool button_filter(bool button)
@@ -70,9 +85,12 @@ void button_cb_pressed(void)
   }
 }
 
-void button_cb_released(int type) //long or short
+void button_cb_released(int ms)
 {
-
+  if (p_fcn_release != nullptr)
+  {
+    (*p_fcn_release)(ms);
+  }
 }
 
 
