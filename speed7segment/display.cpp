@@ -98,11 +98,54 @@ void display_scheduled(void)
 
   mux++;
 
-  if (mux >= DIGITS)
+  if (mux >= DISPLAY_DIGITS)
   {
     mux = 0;
   }
 }
 
+
+
+int number_len(int value)
+{
+  int len = 0;
+
+  while (value)
+  {
+    value /= 10;
+    ++len;
+  }
+
+  return len;
+}
+
+void display_set_value_auto_dot(int value, int decimals)
+{
+  int dots = 0;
+  int digits_integer = number_len(value) - decimals;
+
+  if (digits_integer <= 1) digits_integer = 1;
+
+  switch (digits_integer)
+  {
+    case 1:   dots = 0b100; break;
+    case 2:   dots = 0b010; break;
+    default:  dots = 0b000;
+  }
+
+  // DISPLAY_DIGITS;
+  for (int i = 0; i < digits_integer; ++i) value /= 10;
+
+  // Serial.print(value);
+  // Serial.print("\t");
+  // Serial.print(decimals);
+  // Serial.print("\t");
+  // Serial.print(digits_integer);
+  // Serial.print("\t");
+  // Serial.print(dots);
+  // Serial.println();
+
+  display_set_value(value, 0, dots);
+}
 
 //fcns for TRg'd and bicolor

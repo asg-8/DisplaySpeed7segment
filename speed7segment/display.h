@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 
-#define DIGITS 3
+#define DISPLAY_DIGITS 3
 
 void display_scheduled(void);
 void display_set_value(int, uint8_t = 0, int = 0);
+void display_set_value_auto_dot(int, int = 1);
 
 #endif //DISPLAY_H

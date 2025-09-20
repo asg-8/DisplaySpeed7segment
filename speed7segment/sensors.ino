@@ -1,5 +1,17 @@
-int sensorPin = A0;   // select the input pin for the potentiometer
-int ledPin = 13;      // select the pin for the LED
+// float SENSOR_DISTANCE = 2.54 * 58; //mm/step * number of steps //in mm
+// long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
+// long DISTANCE_um = 147320LU; //in um --> mm / ms
+long DISTANCE_um = 127000LU; //in um --> mm / ms
+#define SENSOR_DISTANCE (DISTANCE_um)
+
+#define MILIS_GATE 3000
+
+typedef enum sensor_enum {SENSOR_A, SENSOR_B} sensor_enum_t;
+typedef enum sensor_type {SENSOR_DIGITAL, SENSOR_ANALOG} sensor_type_t;
+
+// int sensorPin = A0;   // select the input pin for the potentiometer
+// int ledPin = 13;      // select the pin for the LED
+
 int sensorValue = 0;  // variable to store the value coming from the sensor
 int counter = 0;
 
@@ -19,15 +31,13 @@ bool gateB = true;
 int speed = 0;
 long time = 0; //diff
 
-// float SENSOR_DISTANCE = 2.54 * 58; //mm/step * number of steps //in mm
-// long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
-// long DISTANCE_um = 147320LU; //in um --> mm / ms
-long DISTANCE_um = 127000LU; //in um --> mm / ms
-#define SENSOR_DISTANCE (DISTANCE_um)
-
-#define MILIS_GATE 3000
+sensor_type_t sensor_mode = SENSOR_DIGITAL;
 
 
+
+bool sensor_detected(sensor_enum_t sensor);
+bool sensor_detected_digital(sensor_enum_t sensor);
+bool sensor_detected_analog(sensor_enum_t sensor);
 
 /////////////////////////////////////// HYSTERESYS
 
@@ -53,8 +63,11 @@ void sensors_scheduled(void)
 {
   unsigned long milis = millis();
   // unsigned long milis = micros();
-  sensorA = !digitalRead(PIN_DI_SENSOR_A);
-  sensorB = !digitalRead(PIN_DI_SENSOR_B);
+  // sensorA = !digitalRead(PIN_DI_SENSOR_A);
+  // sensorB = !digitalRead(PIN_DI_SENSOR_B);
+
+  sensorA = sensor_detected(SENSOR_A);
+  sensorB = sensor_detected(SENSOR_B);
 
   if (milis > milis_sensorA + MILIS_GATE) gateA = true;
   if (milis > milis_sensorB + MILIS_GATE) gateB = true;
@@ -101,17 +114,17 @@ void sensors_scheduled(void)
   }
 }
 
-bool sensor_detected(int sensor)
+bool sensor_detected(sensor_enum_t sensor)
 {
-
+  return sensor_mode == SENSOR_ANALOG ? sensor_detected_analog(sensor) : sensor_detected_digital(sensor);
 }
 
-bool sensor_digital(int sensor)
+bool sensor_detected_digital(sensor_enum_t sensor)
 {
-
+  return !digitalRead(sensor == SENSOR_A ? PIN_DI_SENSOR_A : PIN_DI_SENSOR_B);
 }
 
-bool sensor_analog(int sensor)
+bool sensor_detected_analog(sensor_enum_t sensor)
 {
   
 }

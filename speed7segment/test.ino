@@ -1,5 +1,5 @@
 int potval_prev = 0;
-void loop_test_pot(void)
+void loop_test_pot(int display)
 {
   int potval = potRead();
   int configval = potControlDiscrete(potval, 10);
@@ -18,29 +18,40 @@ void loop_test_pot(void)
     Serial.println();
   }
 
-  if (potval > 999) potval = 999;
-  display_set_value(potval, 0);
+  switch (display)
+  {
+    case 0:
+      if (potval > 999) potval = 999;
+      display_set_value(potval, 0);
+      digitalWrite(PIN_DO_BICOLOR_R, potval > 333);
+      digitalWrite(PIN_DO_BICOLOR_G, potval < 666);
+      break;
 
-  // if(!digitalRead(PIN_DI_BUTTON))
-  // {
-    digitalWrite(PIN_DO_BICOLOR_R, potval > 333);
-    digitalWrite(PIN_DO_BICOLOR_G, potval < 666);
-  // }
-  // else
-  // {
-  //   digitalWrite(PIN_DO_BICOLOR_R, false);
-  //   digitalWrite(PIN_DO_BICOLOR_G, false);
-  // }
+    case 1:
+      display_set_value_auto_dot(gate_ms[configval2], 3);
+      digitalWrite(PIN_DO_BICOLOR_R, 0);
+      digitalWrite(PIN_DO_BICOLOR_G, 0);
+      break;
+  }
 }
+
+
+
+
 
 void loop_test_button(void)
 {
   int button_press_ms = button_get_ms_press();
   
+  // if (button_press_ms == 0)
+  //   display_set_value(button_ms_released/10, 0, 0b100);
+  // else
+  //   display_set_value(button_press_ms/10, 0, 0b100);
+  
   if (button_press_ms == 0)
-    display_set_value(button_ms_released/10, 0, 0b100);
+    display_set_value_auto_dot(button_ms_released, 3);
   else
-    display_set_value(button_press_ms/10, 0, 0b100);
+    display_set_value_auto_dot(button_press_ms, 3);
 
   if(button_press_ms == 0)
   {

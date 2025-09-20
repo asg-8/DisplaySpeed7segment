@@ -54,11 +54,17 @@ void loop()
 
     case 2:
     {
-      loop_test_pot();
+      loop_test_pot(0);
       break;
     }
 
     case 3:
+    {
+      loop_test_pot(1);
+      break;
+    }
+
+    case 4:
     {
       loop_test_button();
       break;
@@ -71,8 +77,8 @@ void loop()
 
 void callback_button_pressed(void)
 {
-  if (mode != 3) ++mode;
   // if (mode > 2) mode = 0;
+  if (mode != 4) ++mode;
   Serial.println(mode);
 }
 
