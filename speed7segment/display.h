@@ -7,6 +7,6 @@
 
 void display_scheduled(void);
 void display_set_value(int, uint8_t = 0, int = 0);
-void display_set_value_auto_dot(int, int = 1);
+void display_set_value_auto_dot(long, int = 1);
 
 #endif //DISPLAY_H

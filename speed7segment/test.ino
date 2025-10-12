@@ -41,7 +41,7 @@ void loop_test_pot(int display)
 
 void loop_test_button(void)
 {
-  int button_press_ms = button_get_ms_press();
+  long button_press_ms = button_get_ms_press();
   
   // if (button_press_ms == 0)
   //   display_set_value(button_ms_released/10, 0, 0b100);

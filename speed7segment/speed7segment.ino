@@ -82,8 +82,8 @@ void callback_button_pressed(void)
   Serial.println(mode);
 }
 
-int button_ms_released = 0;
-void callback_button_released(int ms)
+unsigned long button_ms_released = 0;
+void callback_button_released(unsigned long ms)
 {
   button_ms_released = ms;
 }

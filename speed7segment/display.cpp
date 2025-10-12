@@ -106,7 +106,7 @@ void display_scheduled(void)
 
 
 
-int number_len(int value)
+int number_len(long value)
 {
   int len = 0;
 
@@ -119,7 +119,7 @@ int number_len(int value)
   return len;
 }
 
-void display_set_value_auto_dot(int value, int decimals)
+void display_set_value_auto_dot(long value, int decimals)
 {
   int dots = 0;
   int digits_integer = number_len(value) - decimals;
