@@ -65,6 +65,13 @@ void loop()
     }
 
     case 4:
+    case 5:
+    {
+      loop_test_analog(5-mode);
+      break;
+    }
+
+    case 6:
     {
       loop_test_button();
       break;
@@ -78,7 +85,8 @@ void loop()
 void callback_button_pressed(void)
 {
   // if (mode > 2) mode = 0;
-  if (mode != 4) ++mode;
+  if (mode != 6) ++mode;
+  // mode == 6 ? --mode : ++mode;
   Serial.println(mode);
 }
 

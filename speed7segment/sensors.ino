@@ -33,6 +33,8 @@ long time = 0; //diff
 
 sensor_type_t sensor_mode = SENSOR_DIGITAL;
 
+int threshold = 511;
+
 
 
 bool sensor_detected(sensor_enum_t sensor);
@@ -126,5 +128,6 @@ bool sensor_detected_digital(sensor_enum_t sensor)
 
 bool sensor_detected_analog(sensor_enum_t sensor)
 {
-  
+  return analogRead(sensor == SENSOR_A ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
+  // return analogRead(sensor == SENSOR_A ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B) > threshold;
 }

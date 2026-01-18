@@ -78,6 +78,22 @@ void loop_test_button(void)
 
 }
 
+
+void loop_test_analog(int input)
+{
+  int sensor_value = analogRead(input == 0 ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
+  display_set_value(sensor_value, 0);
+  digitalWrite(PIN_DO_BICOLOR_G, input == 1);
+  digitalWrite(PIN_DO_BICOLOR_R, input == 0);
+}
+
+
+
+
+
+
+
+
 void test_adc(void)
 {
   loop_test_adc_dig();

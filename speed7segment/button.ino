@@ -13,7 +13,7 @@ void (*p_fcn_release)(unsigned long) = nullptr;
 
 void button_scheduled(void)
 {
-  bool button = button_filter(!digitalRead(PIN_DI_BUTTON));
+  bool button = button_filter(digitalRead(PIN_DI_BUTTON));
   static bool button_prev = false;
 
   // Serial.print(button);
