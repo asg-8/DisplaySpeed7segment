@@ -20,8 +20,8 @@ void setup()
   lamp_test();
 
   button_setup_callbacks(&callback_button_pressed, &callback_button_released);
-  
-  // test_adc();
+
+  nvm_init();
 
   Serial.println("SETUP DONE");
 }
@@ -142,25 +142,22 @@ void loop_mode_passthrough(void)
 void lamp_test(void)
 {
   display_set_value(888, 0, 0b111);
-  digitalWrite(PIN_DO_TRIGRDY_A, false);
-  digitalWrite(PIN_DO_TRIGRDY_B, true);
-  digitalWrite(PIN_DO_BICOLOR_R, true);
-  digitalWrite(PIN_DO_BICOLOR_G, false);
+  LED_bicolor(LED_BICOLOR_RED);
+  LED_sensor_A(true);
+  LED_sensor_B(false);
 
   delayUpdateDisplay(500);
 
-  digitalWrite(PIN_DO_TRIGRDY_A, true);
-  digitalWrite(PIN_DO_TRIGRDY_B, false);
-  digitalWrite(PIN_DO_BICOLOR_R, false);
-  digitalWrite(PIN_DO_BICOLOR_G, true);
+  LED_bicolor(LED_BICOLOR_GREEN);
+  LED_sensor_A(false);
+  LED_sensor_B(true);
 
   delayUpdateDisplay(500);
 
   display_set_value(0, 0b111);
-  digitalWrite(PIN_DO_TRIGRDY_A, true);
-  digitalWrite(PIN_DO_TRIGRDY_B, true);
-  digitalWrite(PIN_DO_BICOLOR_R, false);
-  digitalWrite(PIN_DO_BICOLOR_G, false);
+  LED_bicolor(LED_BICOLOR_OFF);
+  LED_sensor_A(false);
+  LED_sensor_B(false);
   
   delayUpdateDisplay(500);
 }

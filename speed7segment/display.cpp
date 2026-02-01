@@ -149,3 +149,46 @@ void display_set_value_auto_dot(long value, int decimals)
 }
 
 //fcns for TRg'd and bicolor
+
+void LED_raw(bool LED_green, bool LED_red, bool LED_A, bool LED_B)
+{
+  digitalWrite(PIN_DO_BICOLOR_G, LED_green);
+  digitalWrite(PIN_DO_BICOLOR_R, LED_red);
+  digitalWrite(PIN_DO_TRIGRDY_A, LED_A);
+  digitalWrite(PIN_DO_TRIGRDY_B, LED_B);
+}
+
+void LED_bicolor(color)
+{
+  digitalWrite(PIN_DO_BICOLOR_G, color == LED_BICOLOR_GREEN || color == LED_BICOLOR_ORANGE);
+  digitalWrite(PIN_DO_BICOLOR_R, color == LED_BICOLOR_RED   || color == LED_BICOLOR_ORANGE);
+}
+
+void LED_sensor_A(bool state)
+{
+  digitalWrite(PIN_DO_TRIGRDY_A, !state);
+}
+
+void LED_sensor_B(bool state)
+{
+  digitalWrite(PIN_DO_TRIGRDY_B, !state);
+}
+
+void LED_sensor(led, bool state)
+{
+  int pin = -1;
+
+  switch (led)
+  {
+    case LED_SENSOR_A:
+      pin = PIN_DO_TRIGRDY_A;
+      break;
+    
+    case LED_SENSOR_B:
+      pin = PIN_DO_TRIGRDY_B;
+      break;
+  }
+
+  if (pin != -1) digitalWrite(pin, state);
+}
+
