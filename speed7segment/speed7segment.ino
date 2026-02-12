@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "display.h"
+#include "sensors.h"
 
 unsigned long micros_display = 0; //DO A FUNCTION FOR ELAPSED MILLIS
 const int gate_ms[] = {500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};

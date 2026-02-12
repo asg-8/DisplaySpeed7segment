@@ -1,13 +1,11 @@
+#include "sensors.h"
+#include "defines.h"
+
 // float SENSOR_DISTANCE = 2.54 * 58; //mm/step * number of steps //in mm
 // long DISTANCE_nm = 147320000LLU; //in nm --> mm / us
 // long DISTANCE_um = 147320LU; //in um --> mm / ms
 long DISTANCE_um = 127000LU; //in um --> mm / ms
 #define SENSOR_DISTANCE (DISTANCE_um)
-
-#define MILIS_GATE 3000
-
-typedef enum sensor_enum {SENSOR_A, SENSOR_B} sensor_enum_t;
-typedef enum sensor_type {SENSOR_DIGITAL, SENSOR_ANALOG} sensor_type_t;
 
 // int sensorPin = A0;   // select the input pin for the potentiometer
 // int ledPin = 13;      // select the pin for the LED
