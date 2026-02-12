@@ -68,7 +68,10 @@ void loop()
     case 4:
     case 5:
     {
-      loop_test_analog(5-mode);
+      int sensor = (mode == 4 ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
+      loop_test_analog(sensor);
+      LED_sensor_A(mode == 4);
+      LED_sensor_B(mode == 5);
       break;
     }
 
