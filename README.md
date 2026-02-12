@@ -28,3 +28,5 @@ image test
 ![Arduino configuration screenshot](readme/arduino_config.png "Arduino programmer configuration for (fake) Arduino Nano")
 
 
+UNITS! mm/s
+

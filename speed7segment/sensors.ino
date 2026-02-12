@@ -18,7 +18,6 @@ int counter = 0;
 signed long milis_sensorA = 0;
 signed long milis_sensorB = 0;
 
-bool updated_value = true;
 bool sensorA = false;
 bool sensorB = false;
 bool sensorA_prev = true;
@@ -27,6 +26,8 @@ bool sensorA_new = false;
 bool sensorB_new = false;
 bool gateA = true;
 bool gateB = true;
+bool updated_value = true;
+bool new_speed_value = false;
 
 int speed = 0;
 long time = 0; //diff
@@ -43,10 +44,14 @@ bool sensor_detected_analog(sensor_enum_t sensor);
 
 /////////////////////////////////////// HYSTERESYS
 
-
+bool sensors_has_speed_updated(void)
+{
+  return new_speed_value;
+}
 
 int sensors_get_speed(void)
 {
+  new_speed_value = false;
   return speed;
 }
 
@@ -110,10 +115,26 @@ void sensors_scheduled(void)
   if (updated_value)
   {
     updated_value = false;
+    new_speed_value = true;
 
-    unsigned long time_diff = abs(milis_sensorB - milis_sensorA);
+    unsigned long time_diff = abs(milis_sensorB - milis_sensorA); //ms
+    
+    #ifdef SERIAL_INFO
+    Serial.println(time_diff);
+    #endif
+    
     speed = (unsigned long)SENSOR_DISTANCE / time_diff; //mm/s
   }
+}
+
+int sensor_analog_value(sensor_enum_t sensor)
+{
+  return analogRead(sensor == SENSOR_A ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
+}
+
+bool sensor_detected_analog(sensor_enum_t sensor)
+{
+  return sensor_analog_value(sensor) > threshold;
 }
 
 bool sensor_detected(sensor_enum_t sensor)
@@ -124,10 +145,4 @@ bool sensor_detected(sensor_enum_t sensor)
 bool sensor_detected_digital(sensor_enum_t sensor)
 {
   return !digitalRead(sensor == SENSOR_A ? PIN_DI_SENSOR_A : PIN_DI_SENSOR_B);
-}
-
-bool sensor_detected_analog(sensor_enum_t sensor)
-{
-  return analogRead(sensor == SENSOR_A ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
-  // return analogRead(sensor == SENSOR_A ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B) > threshold;
 }

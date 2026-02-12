@@ -11,5 +11,8 @@ enum {LED_SENSOR_A, LED_SENSOR_B};
 void display_scheduled(void);
 void display_set_value(int, uint8_t = 0, int = 0);
 void display_set_value_auto_dot(long, int = 1);
+void LED_bicolor(int);
+void LED_sensor_A(bool);
+void LED_sensor_B(bool);
 
 #endif //DISPLAY_H

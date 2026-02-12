@@ -158,7 +158,7 @@ void LED_raw(bool LED_green, bool LED_red, bool LED_A, bool LED_B)
   digitalWrite(PIN_DO_TRIGRDY_B, LED_B);
 }
 
-void LED_bicolor(color)
+void LED_bicolor(int color)
 {
   digitalWrite(PIN_DO_BICOLOR_G, color == LED_BICOLOR_GREEN || color == LED_BICOLOR_ORANGE);
   digitalWrite(PIN_DO_BICOLOR_R, color == LED_BICOLOR_RED   || color == LED_BICOLOR_ORANGE);
@@ -174,7 +174,7 @@ void LED_sensor_B(bool state)
   digitalWrite(PIN_DO_TRIGRDY_B, !state);
 }
 
-void LED_sensor(led, bool state)
+void LED_sensor(int led, bool state)
 {
   int pin = -1;
 

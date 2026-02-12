@@ -79,7 +79,7 @@ void loop_test_button(void)
 }
 
 
-void loop_test_analog(int input)
+void loop_test_analog_(int input)
 {
   int sensor_value = analogRead(input == 0 ? PIN_AI_SENSOR_A : PIN_AI_SENSOR_B);
   display_set_value(sensor_value, 0);
@@ -88,7 +88,12 @@ void loop_test_analog(int input)
 }
 
 
-
+void loop_test_analog(int analog)
+{
+  int sensor_value = analogRead(analog);
+  int dots = sensor_value > 999 ? 0b111 : 0b000;
+  display_set_value(sensor_value, 0, dots);
+}
 
 
 

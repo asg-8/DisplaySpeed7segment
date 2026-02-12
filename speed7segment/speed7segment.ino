@@ -96,17 +96,18 @@ void callback_button_released(unsigned long ms)
   button_ms_released = ms;
 }
 
+bool reset_until_new_speed = false; //blank vs 000
 void loop_mode_speed(bool reset)
 {
   int speed = sensors_get_speed();
-  int dots = 0; //overflow
+  int dots = 0;
   int blank = reset ? 0b111 : 0;
 
-  if (speed < 0) speed = 0;
+  if (speed < 0) speed = 0; //should not happen
   if (speed > 999)
   {
     speed = 999;
-    dots = 0b111;
+    dots = 0b111; //overflow
   }
   display_set_value(speed, blank, dots);
 }

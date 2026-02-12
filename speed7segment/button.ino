@@ -16,9 +16,12 @@ void button_scheduled(void)
   bool button = button_filter(digitalRead(PIN_DI_BUTTON));
   static bool button_prev = false;
 
-  // Serial.print(button);
-  // Serial.print(button_prev);
-  // Serial.println();
+  #ifdef SERIAL_DEBUG
+  Serial.print("B"); //Button
+  Serial.print(button);
+  Serial.print(button_prev);
+  Serial.println();
+  #endif
 
   if (button && !button_prev)
   {
