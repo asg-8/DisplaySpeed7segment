@@ -9,11 +9,11 @@ void loop_test_pot(int display)
   {
     potval_prev = potval;
     Serial.print(potval);
-    Serial.print("\t");
+    Serial.print(" ");
     Serial.print(configval);
-    Serial.print("\t");
+    Serial.print(" ");
     Serial.print(configval2);
-    Serial.print("\t");
+    Serial.print(" ");
     Serial.print(gate_ms[configval2]);
     Serial.println();
   }

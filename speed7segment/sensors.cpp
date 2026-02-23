@@ -118,7 +118,8 @@ void sensors_scheduled(void)
     unsigned long time_diff = abs(milis_sensorB - milis_sensorA); //ms
     
     #ifdef SERIAL_INFO
-    Serial.println(time_diff);
+    Serial.print(time_diff);
+    Serial.println("ms");
     #endif
     
     speed = (unsigned long)SENSOR_DISTANCE / time_diff; //mm/s

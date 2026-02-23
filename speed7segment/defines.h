@@ -24,7 +24,7 @@
 #define DISPLAY_REFRESH 3000 //us
 #define DISPLAY_RESET ZEROS
 
-// #define SERIAL_INFO
+#define SERIAL_INFO
 // #define SERIAL_DEBUG
 
 #endif
